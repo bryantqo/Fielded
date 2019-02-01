@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
+import Html exposing (Html, text, div, h1, img, span)
 import Html.Attributes exposing (src, class)
 
 import Fields.GenericField as GenericField exposing(..)
@@ -10,6 +10,7 @@ import Fields.GenericField exposing(GenericFieldType)
 import Fields.StringField as StringField exposing(..)
 import Fields.IntField as IntField exposing(..)
 import Fields.FloatField as FloatField exposing(..)
+import Fields.CustomField as CustomField exposing(..)
 
 ---- MODEL ----
 
@@ -73,6 +74,25 @@ demoFloatField1 =
     , setter = (\a -> \b -> Update { a | area = b })
     }
 
+demoCustomField1 : CustomField.CustomField Data Msg
+demoCustomField1 =
+    { getter = 
+        (\readOnly -> \a ->
+            ( div 
+                []
+                [ span 
+                    [] 
+                    [ text a.name 
+                    ]
+                , span
+                    []
+                    [ text ( String.fromInt a.count )
+                    ] 
+                ]
+            )
+        )
+    }
+
 demoData : Data
 demoData =
     { name = "Test Data"
@@ -95,6 +115,7 @@ fields readOnly =
     [ ( {name = "Name", readOnly = readOnly }, (GenericField.String demoStringField1) )
     , ( {name = "Count", readOnly = readOnly }, (GenericField.Int demoIntField1) )
     , ( {name = "Area", readOnly = readOnly }, (GenericField.Float demoFloatField1) )
+    , ( {name = "Custom", readOnly = readOnly }, (GenericField.Custom demoCustomField1 ) )
     ]
 
 fieldsView : Model -> Bool -> Html Msg

@@ -7,11 +7,13 @@ import Html.Events exposing (onInput)
 import Fields.StringField as StringField exposing(..)
 import Fields.IntField as IntField exposing(..)
 import Fields.FloatField as FloatField exposing(..)
+import Fields.CustomField as CustomField exposing(..)
 
 type GenericFieldType a msg
     = String (StringField a msg)
     | Int (IntField a msg)
     | Float (FloatField a msg)
+    | Custom (CustomField a msg)
 
 type alias BasicFieldInfo =
     { name : String
@@ -33,5 +35,7 @@ view basic field data =
                     IntField.view intf basic.readOnly data
                 Float ff ->
                     FloatField.view ff basic.readOnly data
+                Custom cu ->
+                    CustomField.view cu basic.readOnly data
           )        
         ]
